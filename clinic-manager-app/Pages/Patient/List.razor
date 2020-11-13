@@ -1,0 +1,48 @@
+﻿@page "/patients"
+
+@using Microsoft.Extensions.Configuration
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IPatientDAL _db
+
+<h3>Patients</h3>
+
+@if (patients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in patients)
+            {
+                <tr>
+                    <td>@patient.Id</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    List<PatientModel> patients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        patients = await _db.GetPatients();
+    }
+
+}

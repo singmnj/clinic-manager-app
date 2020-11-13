@@ -1,0 +1,26 @@
+﻿@page "/patient/add"
+
+@using DataLibrary
+@using DataLibrary.Models
+
+
+<h3>Add Patient</h3>
+
+<EditForm Model=@newPatient OnValidSubmit="@InsertPatient">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="firstName" @bind-Value="newPatient.FirstName" />
+    <InputText id="lastName" @bind-Value="newPatient.LastName" />
+
+    <input type="submit" value="Submit" class="btn btn-primary" />
+</EditForm>
+
+@code {
+    DisplayPatientModel newPatient = new DisplayPatientModel();
+
+    private async Task InsertPatient()
+    {
+
+    }
+}
