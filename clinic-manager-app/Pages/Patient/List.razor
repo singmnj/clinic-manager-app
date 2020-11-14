@@ -38,6 +38,7 @@ else
                 <td>@patient.Address</td>
                 <td>@patient.City</td>
                 <td>@patient.Notes</td>
+                <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => (DeletePatient(patient.Id)))"/></td>
             </tr>
             }
         </tbody>
@@ -51,6 +52,13 @@ else
     protected override async Task OnInitializedAsync()
     {
         patients = await _db.GetPatients();
+    }
+
+    private async Task DeletePatient(int patientId)
+    {
+        await _db.DeletePatient(patientId);
+
+        await OnInitializedAsync();
     }
 
 }

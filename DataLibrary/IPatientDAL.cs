@@ -7,6 +7,7 @@ namespace DataLibrary
     public interface IPatientDAL
     {
         Task AddPatient(PatientModel patient);
+        Task DeletePatient(int patientId);
         Task<List<PatientModel>> GetPatients();
     }
 }

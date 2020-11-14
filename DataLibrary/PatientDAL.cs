@@ -29,5 +29,11 @@ namespace DataLibrary
 
             return _db.SaveData(sql, patient);
         }
+
+        public Task DeletePatient(int patientId)
+        {
+            string sql = $"DELETE FROM patient WHERE Id = {patientId}";
+            return _db.SaveData(sql, new { });
+        }
     }
 }
