@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
 using clinic_manager_app.Data;
 using DataLibrary;
+using Blazored.Toast;
 
 namespace clinic_manager_app
 {
@@ -32,6 +33,8 @@ namespace clinic_manager_app
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IDataAccess, SqliteDataAccess>();
             services.AddSingleton<IPatientDAL, PatientDAL>();
+
+            services.AddBlazoredToast();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

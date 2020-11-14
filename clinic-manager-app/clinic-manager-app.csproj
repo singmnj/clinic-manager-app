@@ -4,6 +4,7 @@
     <RootNamespace>clinic_manager_app</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Blazored.Toast" Version="3.1.2" />
     <PackageReference Include="ElectronNET.API" Version="9.31.2" />
   </ItemGroup>
   <ItemGroup>

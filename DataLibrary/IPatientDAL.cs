@@ -6,6 +6,7 @@ namespace DataLibrary
 {
     public interface IPatientDAL
     {
+        Task AddPatient(PatientModel patient);
         Task<List<PatientModel>> GetPatients();
     }
 }

@@ -51,9 +51,15 @@ namespace DataLibrary
                 {
                     connection.Execute(@"
                         CREATE TABLE patient (
-                            Id        INTEGER      PRIMARY KEY AUTOINCREMENT UNIQUE,
-                            FirstName VARCHAR(100) NOT NULL,
-                            LastName  VARCHAR(100) NOT NULL
+                            Id        INTEGER       PRIMARY KEY AUTOINCREMENT
+                                                    UNIQUE
+                                                    NOT NULL,
+                            FirstName VARCHAR (50)  NOT NULL,
+                            LastName  VARCHAR (50)  NOT NULL,
+                            Phone     VARCHAR (15),
+                            Address   VARCHAR (100),
+                            City      VARCHAR (50)  NOT NULL,
+                            Notes     TEXT          NOT NULL
                         );
                      ");
                 }

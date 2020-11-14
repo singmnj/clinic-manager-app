@@ -3,24 +3,81 @@
 @using DataLibrary
 @using DataLibrary.Models
 
+@inject IPatientDAL _db
+
+@inject IToastService toastService
+
 
 <h3>Add Patient</h3>
-
+<hr />
 <EditForm Model=@newPatient OnValidSubmit="@InsertPatient">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <InputText id="firstName" @bind-Value="newPatient.FirstName" />
-    <InputText id="lastName" @bind-Value="newPatient.LastName" />
+    <div class="form-group row">
+        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+        <div class="col-md-4">
+            <InputText id="firstName" class="form-control" @bind-Value="newPatient.FirstName" />
+        </div>
+    </div>
 
-    <input type="submit" value="Submit" class="btn btn-primary" />
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+        <div class="col-md-4">
+            <InputText id="lastName" class="form-control" @bind-Value="newPatient.LastName" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col-md-4">
+            <InputText id="phone" class="form-control" @bind-Value="newPatient.Phone" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col-md-4">
+            <InputTextArea id="address" class="form-control" @bind-Value="newPatient.Address" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="city" class="col-sm-2 col-form-label">City</label>
+        <div class="col-md-4">
+            <InputText id="city" class="form-control" @bind-Value="newPatient.City" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <label for="notes" class="col-sm-2 col-form-label">Notes</label>
+    <div class="col-md-4">
+        <InputTextArea id="notes" class="form-control" @bind-Value="newPatient.Notes" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary"> Submit </button>
 </EditForm>
 
 @code {
+
     DisplayPatientModel newPatient = new DisplayPatientModel();
 
     private async Task InsertPatient()
     {
+        PatientModel p = new PatientModel
+        {
+            FirstName = newPatient.FirstName,
+            LastName = newPatient.LastName,
+            Phone = newPatient.Phone,
+            Address = newPatient.Address,
+            City = newPatient.City,
+            Notes = newPatient.Notes
+        };
+        await _db.AddPatient(p);
 
+        toastService.ShowToast(ToastLevel.Success, $"Successfully Added : {newPatient.FirstName}");
+
+        newPatient = new DisplayPatientModel();
     }
 }

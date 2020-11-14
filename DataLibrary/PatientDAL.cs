@@ -21,5 +21,13 @@ namespace DataLibrary
 
             return _db.LoadData<PatientModel, dynamic>(sql, new { });
         }
+
+        public Task AddPatient(PatientModel patient)
+        {
+            string sql = @"INSERT INTO patient (FirstName, LastName, Phone, Address, City, Notes) 
+                           VALUES (@FirstName, @LastName, @Phone, @Address, @City, @Notes);";
+
+            return _db.SaveData(sql, patient);
+        }
     }
 }
