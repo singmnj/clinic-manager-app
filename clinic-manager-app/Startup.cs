@@ -12,6 +12,7 @@ using ElectronNET.API;
 using clinic_manager_app.Data;
 using DataLibrary;
 using Blazored.Toast;
+using Blazored.Modal;
 
 namespace clinic_manager_app
 {
@@ -35,6 +36,7 @@ namespace clinic_manager_app
             services.AddSingleton<IPatientDAL, PatientDAL>();
 
             services.AddBlazoredToast();
+            services.AddBlazoredModal();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

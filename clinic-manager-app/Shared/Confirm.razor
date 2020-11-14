@@ -1,0 +1,15 @@
+﻿<div>
+    <p>Are you sure ?</p>
+
+    <button @onclick="Yes" class="btn btn-primary">Yes</button>
+    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+</div>
+
+@code {
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    void Yes() => BlazoredModal.Close(ModalResult.Ok(true));
+    void Cancel() => BlazoredModal.Cancel();
+
+}

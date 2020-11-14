@@ -7,6 +7,8 @@
 
 @inject IPatientDAL _db
 
+@inject IModalService Modal
+
 <h3>Patients</h3>
 
 @if (patients == null)
@@ -30,16 +32,16 @@ else
         <tbody>
             @foreach (var patient in patients)
             {
-            <tr>
-                <td>@patient.Id</td>
-                <td>@patient.FirstName</td>
-                <td>@patient.LastName</td>
-                <td>@patient.Phone</td>
-                <td>@patient.Address</td>
-                <td>@patient.City</td>
-                <td>@patient.Notes</td>
-                <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => (DeletePatient(patient.Id)))"/></td>
-            </tr>
+                <tr>
+                    <td>@patient.Id</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.Phone</td>
+                    <td>@patient.Address</td>
+                    <td>@patient.City</td>
+                    <td>@patient.Notes</td>
+                    <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => (DeletePatient(patient.Id)))" /></td>
+                </tr>
             }
         </tbody>
     </table>
@@ -47,7 +49,7 @@ else
 
 @code {
 
-    List<PatientModel> patients;
+        List<PatientModel> patients;
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,9 +58,17 @@ else
 
     private async Task DeletePatient(int patientId)
     {
-        await _db.DeletePatient(patientId);
+        var options = new ModalOptions() { DisableBackgroundCancel = true, HideCloseButton = true };
+        var modal = Modal.Show<Confirm>("Deleting Patient", options);
 
-        await OnInitializedAsync();
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await _db.DeletePatient(patientId);
+
+            await OnInitializedAsync();
+        }
     }
 
 }
