@@ -181,3 +181,7 @@ app {
         display: block;
     }
 }
+
+.add-consultation-modal {
+    min-width: 700px;
+}

@@ -6,6 +6,7 @@ namespace DataLibrary
 {
     public interface IConsultationDAL
     {
+        Task AddConsultation(ConsultationModel consultation);
         Task<List<ConsultationModel>> GetConsultations(int patientId);
     }
 }

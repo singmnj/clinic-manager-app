@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DataLibrary.Models
@@ -8,6 +9,7 @@ namespace DataLibrary.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
 
         public string Notes { get; set; }

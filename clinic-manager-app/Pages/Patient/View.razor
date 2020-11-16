@@ -6,6 +6,8 @@
 @inject IPatientDAL _pdb
 @inject IConsultationDAL _cdb
 
+@inject IModalService Modal
+
 <h3>Patient View</h3>
 
 @if (string.IsNullOrEmpty(PatientId))
@@ -19,19 +21,24 @@ else
         <strong>Patient Details</strong>
         <div style="padding-top: 10px">
             <div style="display: inline-block;">
-                First Name : @patientModel.FirstName <br />
-                Last Name : @patientModel.LastName <br />
-                Phone : @patientModel.Phone
+                <strong>Name : </strong><em>@patientModel.FirstName</em> <em>@patientModel.LastName</em> <br />
+                <strong>Phone : </strong><em>@patientModel.Phone</em> <br />
+                <strong>DOB : </strong>
             </div>
             <div style="display: inline-block; padding-left: 20%">
-                Address : @patientModel.Address <br />
-                City : @patientModel.City <br />
-                Notes : @patientModel.Notes
+                <strong>Address : </strong><em>@patientModel.Address</em> <br />
+                <strong>City : </strong><em>@patientModel.City</em> <br />
+                <strong>Notes : </strong><em>@patientModel.Notes</em>
             </div>
         </div>
     </div>
 
-    <h5>Past Consultations</h5>
+    <div style="margin-top:2%; margin-bottom:2%;">
+        <h4>Activities</h4>
+        <button type="submit" class="btn btn-primary" @onclick="@(e => (CallAddConsultationModal()))" > Add Consultation </button>
+    </div>
+
+    <h4>Past Consultations</h4>
 
     @if (consultations == null || consultations.Count == 0)
     {
@@ -85,11 +92,32 @@ else
         {
             patientModel = new PatientModel
             {
-                FirstName = "", LastName = "", Phone = "", Address = "", City = "", Notes = ""
+                FirstName = "",
+                LastName = "",
+                Phone = "",
+                Address = "",
+                City = "",
+                Notes = ""
             };
             consultations = null;
         }
 
+    }
+
+    private async Task CallAddConsultationModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Consultation.Add.PatientId), PatientId);
+
+        var options = new ModalOptions() { };
+        var modal = Modal.Show<Consultation.Add>("Adding Consultation", parameters, options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await OnInitializedAsync();
+        }
     }
 
 }

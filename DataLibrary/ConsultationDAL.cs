@@ -21,5 +21,13 @@ namespace DataLibrary
 
             return _db.LoadData<ConsultationModel, dynamic>(sql, new { PatientId = patientId });
         }
+
+        public Task AddConsultation(ConsultationModel consultation)
+        {
+            string sql = $@"INSERT INTO consultation (Date, Notes, MaramTherapyDone, PatientId) 
+                           VALUES (@Date, @Notes, {(consultation.MaramTherapyDone ? 1 : 0)}, @PatientId);";
+
+            return _db.SaveData(sql, consultation);
+        }
     }
 }

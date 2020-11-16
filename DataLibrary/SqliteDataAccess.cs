@@ -61,6 +61,16 @@ namespace DataLibrary
                             City      VARCHAR (50)  NOT NULL,
                             Notes     TEXT          NOT NULL
                         );
+                        CREATE TABLE consultation (
+                            Id               INTEGER PRIMARY KEY AUTOINCREMENT
+                                                     UNIQUE
+                                                     NOT NULL,
+                            Date             DATE    NOT NULL,
+                            Notes            TEXT,
+                            MaramTherapyDone BOOLEAN NOT NULL,
+                            PatientId        BIGINT  NOT NULL
+                                                     REFERENCES patient (Id) 
+                        );
                      ");
                 }
             }
