@@ -1,7 +1,5 @@
 ﻿@page "/patients"
 
-@using Microsoft.Extensions.Configuration
-
 @using DataLibrary
 @using DataLibrary.Models
 
@@ -49,7 +47,7 @@ else
 
 @code {
 
-        List<PatientModel> patients;
+    List<PatientModel> patients;
 
     protected override async Task OnInitializedAsync()
     {

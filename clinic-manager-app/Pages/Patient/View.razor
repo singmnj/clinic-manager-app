@@ -1,0 +1,95 @@
+﻿@page "/patient/{PatientId}"
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IPatientDAL _pdb
+@inject IConsultationDAL _cdb
+
+<h3>Patient View</h3>
+
+@if (string.IsNullOrEmpty(PatientId))
+{
+    <h1>Not a valid Patient</h1>
+}
+else
+{
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+        <strong>Patient Details</strong>
+        <div style="padding-top: 10px">
+            <div style="display: inline-block;">
+                First Name : @patientModel.FirstName <br />
+                Last Name : @patientModel.LastName <br />
+                Phone : @patientModel.Phone
+            </div>
+            <div style="display: inline-block; padding-left: 20%">
+                Address : @patientModel.Address <br />
+                City : @patientModel.City <br />
+                Notes : @patientModel.Notes
+            </div>
+        </div>
+    </div>
+
+    <h5>Past Consultations</h5>
+
+    @if (consultations == null || consultations.Count == 0)
+    {
+        <p>No Consultations till now...</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Dates</th>
+                    <th>Notes</th>
+                    <th>MaramTherapyDone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var consultation in consultations)
+                {
+                    <tr>
+                        <td>@consultation.Date</td>
+                        <td>@consultation.Notes</td>
+                        <td>@consultation.MaramTherapyDone</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public string PatientId { get; set; }
+
+    PatientModel patientModel;
+
+    List<ConsultationModel> consultations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int id = 1;
+        if (Int32.TryParse(PatientId, out id))
+        {
+            var patientModelList = await _pdb.GetPatient(id);
+
+            patientModel = patientModelList.FirstOrDefault();
+
+            consultations = await _cdb.GetConsultations(id);
+        }
+        else
+        {
+            patientModel = new PatientModel
+            {
+                FirstName = "", LastName = "", Phone = "", Address = "", City = "", Notes = ""
+            };
+            consultations = null;
+        }
+
+    }
+
+}

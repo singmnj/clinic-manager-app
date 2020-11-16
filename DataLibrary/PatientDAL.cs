@@ -22,6 +22,13 @@ namespace DataLibrary
             return _db.LoadData<PatientModel, dynamic>(sql, new { });
         }
 
+        public Task<List<PatientModel>> GetPatient(int patientId)
+        {
+            string sql = $"SELECT * FROM patient WHERE Id = @Id";
+
+            return _db.LoadData<PatientModel, dynamic>(sql, new { Id = patientId });
+        }
+
         public Task AddPatient(PatientModel patient)
         {
             string sql = @"INSERT INTO patient (FirstName, LastName, Phone, Address, City, Notes) 

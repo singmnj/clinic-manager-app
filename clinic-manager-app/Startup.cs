@@ -34,6 +34,7 @@ namespace clinic_manager_app
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IDataAccess, SqliteDataAccess>();
             services.AddSingleton<IPatientDAL, PatientDAL>();
+            services.AddSingleton<IConsultationDAL, ConsultationDAL>();
 
             services.AddBlazoredToast();
             services.AddBlazoredModal();
