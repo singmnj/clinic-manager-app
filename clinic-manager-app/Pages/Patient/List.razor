@@ -7,6 +7,8 @@
 
 @inject IModalService Modal
 
+@inject NavigationManager NavManager
+
 <h3>Patients</h3>
 
 @if (patients == null)
@@ -38,7 +40,8 @@ else
                     <td>@patient.Address</td>
                     <td>@patient.City</td>
                     <td>@patient.Notes</td>
-                    <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => (DeletePatient(patient.Id)))" /></td>
+                    <td><button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(patient.Id))" /></td>
+                    <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(patient.Id))" /></td>
                 </tr>
             }
         </tbody>
@@ -67,6 +70,11 @@ else
 
             await OnInitializedAsync();
         }
+    }
+
+    private void NavigateToPatientView(int patientId)
+    {
+        NavManager.NavigateTo($"/patient/{patientId}");
     }
 
 }
