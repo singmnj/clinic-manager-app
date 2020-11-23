@@ -31,8 +31,8 @@ namespace DataLibrary
 
         public Task AddPatient(PatientModel patient)
         {
-            string sql = @"INSERT INTO patient (FirstName, LastName, Phone, Address, City, Notes) 
-                           VALUES (@FirstName, @LastName, @Phone, @Address, @City, @Notes);";
+            string sql = @"INSERT INTO patient (OPDNumber, FirstName, LastName, Phone, DOB, Address, City, Notes) 
+                           VALUES (@OPDNumber, @FirstName, @LastName, @Phone, @DOB, @Address, @City, @Notes);";
 
             return _db.SaveData(sql, patient);
         }

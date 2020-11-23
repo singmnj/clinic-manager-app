@@ -54,9 +54,12 @@ namespace DataLibrary
                             Id        INTEGER       PRIMARY KEY AUTOINCREMENT
                                                     UNIQUE
                                                     NOT NULL,
+                            OPDNumber VARCHAR (20)  UNIQUE
+                                                    NOT NULL
                             FirstName VARCHAR (50)  NOT NULL,
                             LastName  VARCHAR (50)  NOT NULL,
                             Phone     VARCHAR (15),
+                            DOB       DATE          NOT NULL
                             Address   VARCHAR (100),
                             City      VARCHAR (50)  NOT NULL,
                             Notes     TEXT          NOT NULL

@@ -11,6 +11,10 @@
 
 <h3>Patients</h3>
 
+<input placeholder="Type Patient First Name and Hit Enter" @bind-value="@SearchString" />
+
+<p>@SearchString</p>
+
 @if (patients == null)
 {
     <p><em>Loading...</em></p>
@@ -21,22 +25,26 @@ else
         <thead>
             <tr>
                 <th>Id</th>
+                <th>OPDNumber</th>
                 <th>FirstName</th>
                 <th>LastName</th>
                 <th>Phone</th>
+                <th>DOB</th>
                 <th>Address</th>
                 <th>City</th>
                 <th>Notes</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var patient in patients)
+            @foreach (var patient in string.IsNullOrEmpty(SearchString) ? patients : patients.Where(p => p.FirstName.ToLower().Contains(SearchString.ToLower())).ToList<PatientModel>())
             {
                 <tr>
                     <td>@patient.Id</td>
+                    <td>@patient.OPDNumber</td>
                     <td>@patient.FirstName</td>
                     <td>@patient.LastName</td>
                     <td>@patient.Phone</td>
+                    <td>@patient.DOB</td>
                     <td>@patient.Address</td>
                     <td>@patient.City</td>
                     <td>@patient.Notes</td>
@@ -49,6 +57,8 @@ else
 }
 
 @code {
+
+    private string SearchString { get; set; }
 
     List<PatientModel> patients;
 

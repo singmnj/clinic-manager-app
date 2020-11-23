@@ -15,6 +15,13 @@
     <ValidationSummary />
 
     <div class="form-group row">
+        <label for="opdNumber" class="col-sm-2 col-form-label">OPD Number</label>
+        <div class="col-md-4">
+            <InputText id="opdNumber" class="form-control" @bind-Value="newPatient.OPDNumber" />
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
         <div class="col-md-4">
             <InputText id="firstName" class="form-control" @bind-Value="newPatient.FirstName" />
@@ -36,6 +43,13 @@
     </div>
 
     <div class="form-group row">
+        <label for="dob" class="col-sm-2 col-form-label">DOB</label>
+        <div class="col-lg-4">
+            <InputDate id="dob" class="form-control" @bind-Value="newPatient.DOB" />
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="address" class="col-sm-2 col-form-label">Address</label>
         <div class="col-md-4">
             <InputTextArea id="address" class="form-control" @bind-Value="newPatient.Address" />
@@ -50,9 +64,9 @@
     </div>
 
     <div class="form-group row">
-    <label for="notes" class="col-sm-2 col-form-label">Notes</label>
-    <div class="col-md-4">
-        <InputTextArea id="notes" class="form-control" @bind-Value="newPatient.Notes" />
+        <label for="notes" class="col-sm-2 col-form-label">Notes</label>
+        <div class="col-md-4">
+            <InputTextArea id="notes" class="form-control" @bind-Value="newPatient.Notes" />
         </div>
     </div>
 
@@ -67,9 +81,11 @@
     {
         PatientModel p = new PatientModel
         {
+            OPDNumber = newPatient.OPDNumber,
             FirstName = newPatient.FirstName,
             LastName = newPatient.LastName,
             Phone = newPatient.Phone,
+            DOB = newPatient.DOB,
             Address = newPatient.Address,
             City = newPatient.City,
             Notes = newPatient.Notes
