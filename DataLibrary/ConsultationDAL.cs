@@ -24,8 +24,8 @@ namespace DataLibrary
 
         public Task AddConsultation(ConsultationModel consultation)
         {
-            string sql = $@"INSERT INTO consultation (Date, Notes, MaramTherapyDone, PatientId) 
-                           VALUES (@Date, @Notes, {(consultation.MaramTherapyDone ? 1 : 0)}, @PatientId);";
+            string sql = $@"INSERT INTO consultation (Date, Notes, MaramTherapyDone, AmountCharged, AmountReceived, PatientId) 
+                           VALUES (@Date, @Notes, {(consultation.MaramTherapyDone ? 1 : 0)}, @AmountCharged, @AmountReceived, @PatientId);";
 
             return _db.SaveData(sql, consultation);
         }

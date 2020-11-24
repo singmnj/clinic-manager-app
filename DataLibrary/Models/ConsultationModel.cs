@@ -14,6 +14,10 @@ namespace DataLibrary.Models
 
         public bool MaramTherapyDone { get; set; }
 
+        public int AmountCharged { get; set; }
+
+        public int AmountReceived { get; set; }
+
         public int PatientId { get; set; }
     }
 }

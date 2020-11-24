@@ -33,6 +33,20 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label for="amountCharged" class="col-sm-2 col-form-label">Amount Charged</label>
+            <div class="col-md-4">
+                <InputNumber id="amountCharged" class="form-control" @bind-Value="newConsultation.AmountCharged" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="amountReceived" class="col-sm-2 col-form-label">Amount Received</label>
+            <div class="col-md-4">
+                <InputNumber id="amountReceived" class="form-control" @bind-Value="newConsultation.AmountReceived" />
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary"> Submit </button>
     </div>
 </EditForm>
@@ -58,6 +72,8 @@
                 Date = newConsultation.Date,
                 Notes = newConsultation.Notes,
                 MaramTherapyDone = newConsultation.MaramTherapyDone,
+                AmountCharged = newConsultation.AmountCharged,
+                AmountReceived = newConsultation.AmountReceived,
                 PatientId = id
             };
 

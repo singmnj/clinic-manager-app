@@ -72,7 +72,9 @@ namespace DataLibrary
                             Notes            TEXT,
                             MaramTherapyDone BOOLEAN NOT NULL,
                             PatientId        BIGINT  NOT NULL
-                                                     REFERENCES patient (Id) 
+                                                     REFERENCES patient (Id),
+                            AmountCharged    BIGINT  DEFAULT (0),
+                            AmountReceived   BIGINT  DEFAULT (0) 
                         );
                      ");
                 }

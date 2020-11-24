@@ -1,5 +1,7 @@
 ﻿@page "/patient/{PatientId}"
 
+@using System.Linq;
+
 @using DataLibrary
 @using DataLibrary.Models
 
@@ -35,7 +37,10 @@ else
 
     <div style="margin-top:2%; margin-bottom:2%;">
         <h4>Activities</h4>
-        <button type="submit" class="btn btn-primary" @onclick="@(e => (CallAddConsultationModal()))" > Add Consultation </button>
+        <span>
+            <button class="btn btn-info"> Dues : @dues </button>
+            <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallAddConsultationModal()))"> Add Consultation </button>
+        </span>
     </div>
 
     <h4>Past Consultations</h4>
@@ -52,6 +57,8 @@ else
                     <th>Date</th>
                     <th>Notes</th>
                     <th>MaramTherapyDone</th>
+                    <th>AmountCharged</th>
+                    <th>AmountReceived</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,6 +68,8 @@ else
                         <td>@consultation.Date</td>
                         <td>@consultation.Notes</td>
                         <td>@consultation.MaramTherapyDone</td>
+                        <td>@consultation.AmountCharged</td>
+                        <td>@consultation.AmountReceived</td>
                     </tr>
                 }
             </tbody>
@@ -77,6 +86,8 @@ else
 
     List<ConsultationModel> consultations;
 
+    int dues = 0;
+
     protected override async Task OnInitializedAsync()
     {
         int id = 1;
@@ -87,6 +98,8 @@ else
             patientModel = patientModelList.FirstOrDefault();
 
             consultations = await _cdb.GetConsultations(id);
+
+            dues = consultations.Sum(c => c.AmountCharged) - consultations.Sum(c => c.AmountReceived);
         }
         else
         {
