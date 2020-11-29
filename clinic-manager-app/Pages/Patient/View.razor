@@ -40,6 +40,7 @@ else
         <span>
             <button class="btn btn-info"> Dues : @dues </button>
             <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallAddConsultationModal()))"> Add Consultation </button>
+            <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallEditPatientModal()))"> Edit Patient </button>
         </span>
     </div>
 
@@ -111,6 +112,7 @@ else
             {
                 FirstName = "",
                 LastName = "",
+                DOB = DateTime.Now,
                 Phone = "",
                 Address = "",
                 City = "",
@@ -128,6 +130,22 @@ else
 
         var options = new ModalOptions() { };
         var modal = Modal.Show<Consultation.Add>("Adding Consultation", parameters, options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await OnInitializedAsync();
+        }
+    }
+
+    private async Task CallEditPatientModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Patient.Edit.editPatient), patientModel);
+
+        var options = new ModalOptions() { };
+        var modal = Modal.Show<Patient.Edit>("Editing Patient", parameters, options);
 
         var result = await modal.Result;
 

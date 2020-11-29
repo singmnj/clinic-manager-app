@@ -8,6 +8,7 @@ namespace DataLibrary
     {
         Task AddPatient(PatientModel patient);
         Task DeletePatient(int patientId);
+        Task EditPatient(PatientModel patient);
         Task<List<PatientModel>> GetPatient(int patientId);
         Task<List<PatientModel>> GetPatients();
     }

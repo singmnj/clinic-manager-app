@@ -37,6 +37,23 @@ namespace DataLibrary
             return _db.SaveData(sql, patient);
         }
 
+        public Task EditPatient(PatientModel patient)
+        {
+            string sql = @"UPDATE patient 
+                           SET 
+                           FirstName = @FirstName, 
+                           LastName = @LastName, 
+                           Gender = @Gender, 
+                           Phone = @Phone, 
+                           DOB = @DOB, 
+                           Address = @Address, 
+                           City = @City, 
+                           Notes = @Notes
+                           WHERE Id = @Id;";
+
+            return _db.SaveData(sql, patient);
+        }
+
         public Task DeletePatient(int patientId)
         {
             string sql = $"DELETE FROM patient WHERE Id = {patientId}";
