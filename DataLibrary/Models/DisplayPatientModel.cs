@@ -18,6 +18,9 @@ namespace DataLibrary.Models
         public string LastName { get; set; }
 
         [Required]
+        public string Gender { get; set; }
+
+        [Required]
         [MinLength(10, ErrorMessage = "Phone Number is too short")]
         public string Phone { get; set; }
 

@@ -36,6 +36,20 @@
     </div>
 
     <div class="form-group row">
+        <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+        <div class="col-md-4">
+            <input type="radio" name="gender" value="M" @onchange="RadioSelection" checked />
+            <label class="radio-inline">Male</label>
+
+            <input type="radio" name="gender" value="F" @onchange="RadioSelection" />
+            <label class="radio-inline">Female</label>
+
+            <input type="radio" name="gender" value="U" @onchange="RadioSelection" />
+            <label class="radio-inline">Unknown</label>
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="phone" class="col-sm-2 col-form-label">Phone</label>
         <div class="col-md-4">
             <InputText id="phone" class="form-control" @bind-Value="newPatient.Phone" />
@@ -75,7 +89,14 @@
 
 @code {
 
-    DisplayPatientModel newPatient = new DisplayPatientModel();
+    string GenderValue = "M";
+
+    void RadioSelection(ChangeEventArgs args)
+    {
+        GenderValue = args.Value.ToString();
+    }
+
+    DisplayPatientModel newPatient = new DisplayPatientModel() { Gender = "M"};
 
     private async Task InsertPatient()
     {
@@ -84,6 +105,7 @@
             OPDNumber = newPatient.OPDNumber,
             FirstName = newPatient.FirstName,
             LastName = newPatient.LastName,
+            Gender = GenderValue,
             Phone = newPatient.Phone,
             DOB = newPatient.DOB,
             Address = newPatient.Address,

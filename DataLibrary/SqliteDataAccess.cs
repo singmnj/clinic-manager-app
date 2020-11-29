@@ -62,7 +62,8 @@ namespace DataLibrary
                             DOB       DATE          NOT NULL
                             Address   VARCHAR (100),
                             City      VARCHAR (50)  NOT NULL,
-                            Notes     TEXT          NOT NULL
+                            Notes     TEXT          NOT NULL,
+                            Gender    CHAR (1)      NOT NULL
                         );
                         CREATE TABLE consultation (
                             Id               INTEGER PRIMARY KEY AUTOINCREMENT

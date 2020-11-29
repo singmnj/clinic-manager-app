@@ -24,12 +24,12 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>OPDNumber</th>
+                <th>OPD No.</th>
                 <th>FirstName</th>
                 <th>LastName</th>
+                <th>Gender</th>
                 <th>Phone</th>
-                <th>DOB</th>
+                <th>Age</th>
                 <th>Address</th>
                 <th>City</th>
                 <th>Notes</th>
@@ -39,12 +39,12 @@ else
             @foreach (var patient in string.IsNullOrEmpty(SearchString) ? patients : patients.Where(p => p.FirstName.ToLower().Contains(SearchString.ToLower())).ToList<PatientModel>())
             {
                 <tr>
-                    <td>@patient.Id</td>
                     <td>@patient.OPDNumber</td>
                     <td>@patient.FirstName</td>
                     <td>@patient.LastName</td>
+                    <td>@patient.Gender</td>
                     <td>@patient.Phone</td>
-                    <td>@patient.DOB</td>
+                    <td>@(DateTime.Today.Year - patient.DOB.Year)</td>    
                     <td>@patient.Address</td>
                     <td>@patient.City</td>
                     <td>@patient.Notes</td>
