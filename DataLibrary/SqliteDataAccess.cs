@@ -23,7 +23,7 @@ namespace DataLibrary
         {
             _config = config;
             DBFile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\" + _config.GetSection("DBFile").Value;
-            ConnectionString = $"Data Source={Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\" + _config.GetSection("DbFile").Value}";
+            ConnectionString = $"Data Source={Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\" + _config.GetSection("DbFile").Value};foreign keys=true;";
         }
         public async Task<List<T>> LoadData<T, U>(string sql, U parameters)
         {
@@ -73,7 +73,7 @@ namespace DataLibrary
                             Notes            TEXT,
                             MaramTherapyDone BOOLEAN NOT NULL,
                             PatientId        BIGINT  NOT NULL
-                                                     REFERENCES patient (Id),
+                                                     REFERENCES patient (Id) ON DELETE CASCADE,
                             AmountCharged    BIGINT  DEFAULT (0),
                             AmountReceived   BIGINT  DEFAULT (0) 
                         );
