@@ -56,7 +56,9 @@ else
                 <tr>
                     <th>Date</th>
                     <th>Notes</th>
-                    <th>MaramTherapyDone</th>
+                    <th>Medicines</th>
+                    <th>Days</th>
+                    <th>MaramTherapy</th>
                     <th>AmountCharged</th>
                     <th>AmountReceived</th>
                 </tr>
@@ -64,13 +66,15 @@ else
             <tbody>
                 @foreach (var consultation in consultations)
                 {
-                    <tr>
-                        <td>@consultation.Date</td>
-                        <td>@consultation.Notes</td>
-                        <td>@consultation.MaramTherapyDone</td>
-                        <td>@consultation.AmountCharged</td>
-                        <td>@consultation.AmountReceived</td>
-                    </tr>
+                <tr>
+                    <td>@consultation.Date</td>
+                    <td class="overflowing-word-wrapped">@consultation.Notes</td>
+                    <td class="overflowing-word-wrapped">@consultation.Medicines</td>
+                    <td>@consultation.Days</td>
+                    <td>@(consultation.MaramTherapyDone ? "Y" : "N") </td>
+                    <td>@consultation.AmountCharged</td>
+                    <td>@consultation.AmountReceived</td>
+                </tr>
                 }
             </tbody>
         </table>

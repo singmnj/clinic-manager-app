@@ -185,3 +185,16 @@ app {
 .add-consultation-modal {
     min-width: 700px;
 }
+
+td.overflowing-hidden {
+    max-width: 150px;
+    max-height: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.overflowing-word-wrapped {
+    max-width: 150px;
+    max-height: 150px;
+    word-wrap: break-word;
+}

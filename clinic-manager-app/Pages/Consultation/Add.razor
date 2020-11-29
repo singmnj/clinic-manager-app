@@ -27,6 +27,20 @@
         </div>
 
         <div class="form-group row">
+            <label for="medicines" class="col-sm-2 col-form-label">Medicines</label>
+            <div class="col-md-4">
+                <InputTextArea id="medicines" class="form-control" @bind-Value="newConsultation.Medicines" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="days" class="col-sm-2 col-form-label">Days</label>
+            <div class="col-md-4">
+                <InputNumber id="days" class="form-control" @bind-Value="newConsultation.Days" />
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label for="maramTherapyDone" class="col-sm-2 col-form-label">MaramTherapyDone</label>
             <div class="col-md-4">
                 <InputCheckbox id="maramTherapyDone" class="form-control" @bind-Value="newConsultation.MaramTherapyDone" />
@@ -71,6 +85,8 @@
             {
                 Date = newConsultation.Date,
                 Notes = newConsultation.Notes,
+                Medicines = newConsultation.Medicines,
+                Days = newConsultation.Days,
                 MaramTherapyDone = newConsultation.MaramTherapyDone,
                 AmountCharged = newConsultation.AmountCharged,
                 AmountReceived = newConsultation.AmountReceived,

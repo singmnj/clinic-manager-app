@@ -71,6 +71,8 @@ namespace DataLibrary
                                                      NOT NULL,
                             Date             DATE    NOT NULL,
                             Notes            TEXT,
+                            Medicines        TEXT,
+                            Days             INTEGER,
                             MaramTherapyDone BOOLEAN NOT NULL,
                             PatientId        BIGINT  NOT NULL
                                                      REFERENCES patient (Id) ON DELETE CASCADE,

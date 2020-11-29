@@ -12,6 +12,10 @@ namespace DataLibrary.Models
 
         public string Notes { get; set; }
 
+        public string Medicines { get; set; }
+
+        public int Days { get; set; }
+
         public bool MaramTherapyDone { get; set; }
 
         public int AmountCharged { get; set; }
