@@ -67,7 +67,7 @@ else
                     <td>@(DateTime.Today.Year - patient.DOB.Year)</td>    
                     <td>@patient.Address</td>
                     <td>@patient.City</td>
-                    <td class="overflowing-hidden">@patient.Notes</td>
+                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@patient.Notes</div></td>
                     <td><button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(patient.Id))" /></td>
                     <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(patient.Id))" /></td>
                 </tr>
