@@ -198,3 +198,14 @@ td.overflowing-word-wrapped {
     max-height: 150px;
     word-wrap: break-word;
 }
+
+.row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.block {
+    margin: 10px;
+}
