@@ -186,6 +186,10 @@ app {
     min-width: 700px;
 }
 
+.edit-patient-modal {
+    min-width: 700px;
+}
+
 td.overflowing-hidden {
     max-width: 150px;
     max-height: 150px;

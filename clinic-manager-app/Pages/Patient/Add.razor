@@ -14,29 +14,25 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="form-group row">
-        <label for="opdNumber" class="col-sm-2 col-form-label">OPD Number</label>
-        <div class="col-md-4">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="opdNumber">OPD Number</label>
             <InputText id="opdNumber" class="form-control" @bind-Value="newPatient.OPDNumber" />
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-        <div class="col-md-4">
+        <div class="form-group col-md-3">
+            <label for="firstName">First Name</label>
             <InputText id="firstName" class="form-control" @bind-Value="newPatient.FirstName" />
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-        <div class="col-md-4">
+        <div class="form-group col-md-3">
+            <label for="lastName">Last Name</label>
             <InputText id="lastName" class="form-control" @bind-Value="newPatient.LastName" />
         </div>
     </div>
 
-    <div class="form-group row">
-        <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+    <div class="form-group">
+        <label for="gender">Gender</label>
         <div class="col-md-4">
             <input type="radio" name="gender" value="M" @onchange="RadioSelection" checked />
             <label class="radio-inline">Male</label>
@@ -49,38 +45,34 @@
         </div>
     </div>
 
-    <div class="form-group row">
-        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
-        <div class="col-md-4">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="phone">Phone</label>
             <InputText id="phone" class="form-control" @bind-Value="newPatient.Phone" />
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="dob" class="col-sm-2 col-form-label">DOB</label>
-        <div class="col-lg-4">
+        <div class="form-group col-md-2">
+            <label for="dob">DOB</label>
             <InputDate id="dob" class="form-control" @bind-Value="newPatient.DOB" />
         </div>
     </div>
 
-    <div class="form-group row">
-        <label for="address" class="col-sm-2 col-form-label">Address</label>
-        <div class="col-md-4">
-            <InputTextArea id="address" class="form-control" @bind-Value="newPatient.Address" />
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="address">Address</label>
+            <InputTextArea id="address" class="form-control" rows="3" @bind-Value="newPatient.Address" />
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="city" class="col-sm-2 col-form-label">City</label>
-        <div class="col-md-4">
+        <div class="form-group col-md-2">
+            <label for="city">City</label>
             <InputText id="city" class="form-control" @bind-Value="newPatient.City" />
         </div>
     </div>
 
-    <div class="form-group row">
-        <label for="notes" class="col-sm-2 col-form-label">Notes</label>
-        <div class="col-md-4">
-            <InputTextArea id="notes" class="form-control" @bind-Value="newPatient.Notes" />
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="notes">Notes</label>
+            <InputTextArea id="notes" class="form-control" rows="3" @bind-Value="newPatient.Notes" />
         </div>
     </div>
 

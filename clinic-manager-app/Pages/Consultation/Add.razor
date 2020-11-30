@@ -12,55 +12,48 @@
     <ValidationSummary />
 
     <div class="add-consultation-modal">
-        <div class="form-group row add-consultation-modal">
-            <label for="date" class="col-sm-2 col-form-label">Date</label>
-            <div class="col-lg-4">
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="date">Date</label>
                 <InputDate id="date" class="form-control" @bind-Value="newConsultation.Date" />
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="notes" class="col-sm-2 col-form-label">Notes</label>
-            <div class="col-md-4">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="notes">Notes</label>
                 <InputTextArea id="notes" class="form-control" @bind-Value="newConsultation.Notes" />
             </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="medicines" class="col-sm-2 col-form-label">Medicines</label>
-            <div class="col-md-4">
+            <div class="form-group col-md-6">
+                <label for="medicines">Medicines</label>
                 <InputTextArea id="medicines" class="form-control" @bind-Value="newConsultation.Medicines" />
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="days" class="col-sm-2 col-form-label">Days</label>
-            <div class="col-md-4">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="days">Days</label>
                 <InputNumber id="days" class="form-control" @bind-Value="newConsultation.Days" />
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label for="maramTherapyDone" class="col-sm-2 col-form-label">MaramTherapyDone</label>
-            <div class="col-md-4">
+            <div class="form-group col-md-3">
+                <label for="maramTherapyDone">MaramTherapyDone</label>
                 <InputCheckbox id="maramTherapyDone" class="form-control" @bind-Value="newConsultation.MaramTherapyDone" />
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="amountCharged" class="col-sm-2 col-form-label">Amount Charged</label>
-            <div class="col-md-4">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="amountCharged">Amount Charged</label>
                 <InputNumber id="amountCharged" class="form-control" @bind-Value="newConsultation.AmountCharged" />
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label for="amountReceived" class="col-sm-2 col-form-label">Amount Received</label>
-            <div class="col-md-4">
+            <div class="form-group col-md-3">
+                <label for="amountReceived">Amount Received</label>
                 <InputNumber id="amountReceived" class="form-control" @bind-Value="newConsultation.AmountReceived" />
             </div>
         </div>
-
         <button type="submit" class="btn btn-primary"> Submit </button>
     </div>
 </EditForm>
