@@ -54,15 +54,15 @@ namespace DataLibrary
                             Id        INTEGER       PRIMARY KEY AUTOINCREMENT
                                                     UNIQUE
                                                     NOT NULL,
-                            OPDNumber VARCHAR (20)  UNIQUE
-                                                    NOT NULL
                             FirstName VARCHAR (50)  NOT NULL,
                             LastName  VARCHAR (50)  NOT NULL,
                             Phone     VARCHAR (15),
-                            DOB       DATE          NOT NULL
                             Address   VARCHAR (100),
                             City      VARCHAR (50)  NOT NULL,
                             Notes     TEXT          NOT NULL,
+                            DOB       DATE          NOT NULL,
+                            OPDNumber VARCHAR (20)  UNIQUE
+                                                    NOT NULL,
                             Gender    CHAR (1)      NOT NULL
                         );
                         CREATE TABLE consultation (
@@ -71,13 +71,13 @@ namespace DataLibrary
                                                      NOT NULL,
                             Date             DATE    NOT NULL,
                             Notes            TEXT,
-                            Medicines        TEXT,
-                            Days             INTEGER,
                             MaramTherapyDone BOOLEAN NOT NULL,
                             PatientId        BIGINT  NOT NULL
                                                      REFERENCES patient (Id) ON DELETE CASCADE,
                             AmountCharged    BIGINT  DEFAULT (0),
-                            AmountReceived   BIGINT  DEFAULT (0) 
+                            AmountReceived   BIGINT  DEFAULT (0),
+                            Medicines        TEXT,
+                            Days             INTEGER
                         );
                      ");
                 }
