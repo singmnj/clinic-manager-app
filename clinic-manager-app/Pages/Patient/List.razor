@@ -1,0 +1,116 @@
+﻿@page "/patients"
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IPatientDAL _db
+
+@inject IModalService Modal
+
+@inject NavigationManager NavManager
+
+<h3>Patients</h3>
+
+<div class="row">
+    <div class="block">
+        <input class="form-control" placeholder="Type and Hit Enter" @bind-value="SearchString" />
+    </div>
+    <div class="block">
+        <select class="form-control selectpicker" @bind="SearchCriteria">
+            @foreach (var criteria in SearchCriterias)
+            {
+                <option value="@criteria">@criteria</option>
+            }
+        </select>
+    </div>
+</div>
+
+@if (patients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>OPD No.</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                List<PatientModel> filteredPatients = patients;
+
+                if (string.IsNullOrEmpty(SearchString))
+                    filteredPatients = patients;
+                else if (SearchCriteria.Equals("OPDNo"))
+                    filteredPatients = patients.Where(p => p.OPDNumber.ToLower().Contains(SearchString.ToLower())).ToList<PatientModel>();
+                else if(SearchCriteria.Equals("FirstName"))
+                    filteredPatients = patients.Where(p => p.FirstName.ToLower().Contains(SearchString.ToLower())).ToList<PatientModel>();
+            }
+            @foreach (var patient in filteredPatients)
+            {
+                <tr>
+                    <td>@patient.OPDNumber</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.Gender</td>
+                    <td>@patient.Phone</td>
+                    <td>@(DateTime.Today.Year - patient.DOB.Year)</td>    
+                    <td>@patient.Address</td>
+                    <td>@patient.City</td>
+                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@patient.Notes</div></td>
+                    <td><button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(patient.Id))" /></td>
+                    <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(patient.Id))" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private string SearchString { get; set; }
+
+    private string SearchCriteria { get; set; }
+
+    private string[] SearchCriterias = { "OPDNo", "FirstName"};
+
+    List<PatientModel> patients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SearchString = "";
+        SearchCriteria = SearchCriterias[0];
+        patients = await _db.GetPatients();
+    }
+
+    private async Task DeletePatient(int patientId)
+    {
+        var options = new ModalOptions() { DisableBackgroundCancel = true, HideCloseButton = true };
+        var modal = Modal.Show<Confirm>("Deleting Patient", options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await _db.DeletePatient(patientId);
+
+            await OnInitializedAsync();
+        }
+    }
+
+    private void NavigateToPatientView(int patientId)
+    {
+        NavManager.NavigateTo($"/patient/{patientId}");
+    }
+
+}

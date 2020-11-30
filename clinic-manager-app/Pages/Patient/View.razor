@@ -1,0 +1,160 @@
+﻿@page "/patient/{PatientId}"
+
+@using System.Linq;
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IPatientDAL _pdb
+@inject IConsultationDAL _cdb
+
+@inject IModalService Modal
+
+<h3>Patient View</h3>
+
+@if (string.IsNullOrEmpty(PatientId) || patientModel == null)
+{
+    <h1>Not a valid Patient</h1>
+}
+else
+{
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+        <strong>Patient Details</strong>
+        <div class="row">
+            <div class="block">
+                <strong>Name : </strong><em>@patientModel.FirstName</em> <em>@patientModel.LastName</em> <br />
+                <strong>Phone : </strong><em>@patientModel.Phone</em> <br />
+                <strong>DOB : </strong><em>@patientModel.DOB.ToShortDateString()</em> <br />
+                <strong>Gender : </strong><em>@patientModel.Gender</em>
+            </div>
+            <div style="padding-left:200px" class="block">
+                <strong>Address : </strong><em>@patientModel.Address</em> <br />
+                <strong>City : </strong><em>@patientModel.City</em> <br />
+                <strong>Notes : </strong>
+                <div style="overflow: auto;max-height:100px; max-width:500px">@patientModel.Notes</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:2%; margin-bottom:2%;">
+        <h4>Activities</h4>
+        <span>
+            <button class="btn btn-info"> Dues : @dues </button>
+            <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallAddConsultationModal()))"> Add Consultation </button>
+            <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallEditPatientModal()))"> Edit Patient </button>
+        </span>
+    </div>
+
+    <h4>Past Consultations</h4>
+
+    @if (consultations == null || consultations.Count == 0)
+    {
+        <p>No Consultations till now...</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Notes</th>
+                    <th>Medicines</th>
+                    <th>Days</th>
+                    <th>MaramTherapy</th>
+                    <th>AmountCharged</th>
+                    <th>AmountReceived</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var consultation in consultations)
+                {
+                <tr>
+                    <td>@consultation.Date</td>
+                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@consultation.Notes</div></td>
+                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@consultation.Medicines</div></td>
+                    <td>@consultation.Days</td>
+                    <td>@(consultation.MaramTherapyDone ? "Y" : "N") </td>
+                    <td>@consultation.AmountCharged</td>
+                    <td>@consultation.AmountReceived</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public string PatientId { get; set; }
+
+    PatientModel patientModel;
+
+    List<ConsultationModel> consultations;
+
+    int dues = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int id = 1;
+        if (Int32.TryParse(PatientId, out id))
+        {
+            var patientModelList = await _pdb.GetPatient(id);
+
+            patientModel = patientModelList.FirstOrDefault();
+
+            consultations = await _cdb.GetConsultations(id);
+
+            dues = consultations.Sum(c => c.AmountCharged) - consultations.Sum(c => c.AmountReceived);
+        }
+        else
+        {
+            patientModel = new PatientModel
+            {
+                FirstName = "",
+                LastName = "",
+                DOB = DateTime.Now,
+                Phone = "",
+                Address = "",
+                City = "",
+                Notes = ""
+            };
+            consultations = null;
+        }
+
+    }
+
+    private async Task CallAddConsultationModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Consultation.Add.PatientId), PatientId);
+
+        var options = new ModalOptions() { };
+        var modal = Modal.Show<Consultation.Add>("Adding Consultation", parameters, options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await OnInitializedAsync();
+        }
+    }
+
+    private async Task CallEditPatientModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Patient.Edit.editPatient), patientModel);
+
+        var options = new ModalOptions() { };
+        var modal = Modal.Show<Patient.Edit>("Editing Patient", parameters, options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await OnInitializedAsync();
+        }
+    }
+
+}

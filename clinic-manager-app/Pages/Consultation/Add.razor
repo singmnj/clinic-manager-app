@@ -1,0 +1,95 @@
+﻿@page "/consultation/add/{PatientId}"
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IConsultationDAL _cdb
+
+@inject IModalService Modal
+
+<EditForm Model=@newConsultation OnValidSubmit="@InsertConsultation" >
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="add-consultation-modal">
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="date">Date</label>
+                <InputDate id="date" class="form-control" @bind-Value="newConsultation.Date" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="notes">Notes</label>
+                <InputTextArea id="notes" class="form-control" @bind-Value="newConsultation.Notes" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="medicines">Medicines</label>
+                <InputTextArea id="medicines" class="form-control" @bind-Value="newConsultation.Medicines" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="days">Days</label>
+                <InputNumber id="days" class="form-control" @bind-Value="newConsultation.Days" />
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="maramTherapyDone">MaramTherapyDone</label>
+                <InputCheckbox id="maramTherapyDone" class="form-control" @bind-Value="newConsultation.MaramTherapyDone" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="amountCharged">Amount Charged</label>
+                <InputNumber id="amountCharged" class="form-control" @bind-Value="newConsultation.AmountCharged" />
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="amountReceived">Amount Received</label>
+                <InputNumber id="amountReceived" class="form-control" @bind-Value="newConsultation.AmountReceived" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary"> Submit </button>
+    </div>
+</EditForm>
+
+<!--button @onclick="Cancel" class="btn btn-secondary">Cancel</button-->
+
+@code {
+
+    [Parameter]
+    public string PatientId { get; set; }
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    DisplayConsultationModel newConsultation = new DisplayConsultationModel();
+
+    private async Task InsertConsultation()
+    {
+        int id = 1;
+        if (Int32.TryParse(PatientId, out id))
+        {
+            ConsultationModel c = new ConsultationModel
+            {
+                Date = newConsultation.Date,
+                Notes = newConsultation.Notes,
+                Medicines = newConsultation.Medicines,
+                Days = newConsultation.Days,
+                MaramTherapyDone = newConsultation.MaramTherapyDone,
+                AmountCharged = newConsultation.AmountCharged,
+                AmountReceived = newConsultation.AmountReceived,
+                PatientId = id
+            };
+
+            await _cdb.AddConsultation(c);
+            await BlazoredModal.Close(ModalResult.Ok(true));
+        }
+    }
+
+    //void Cancel() => BlazoredModal.Cancel();
+}

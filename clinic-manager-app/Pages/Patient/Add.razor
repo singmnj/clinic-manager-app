@@ -1,0 +1,113 @@
+﻿@page "/patient/add"
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IPatientDAL _db
+
+@inject IToastService toastService
+
+
+<h3>Add Patient</h3>
+<hr />
+<EditForm Model=@newPatient OnValidSubmit="@InsertPatient">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="opdNumber">OPD Number</label>
+            <InputText id="opdNumber" class="form-control" @bind-Value="newPatient.OPDNumber" />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="firstName">First Name</label>
+            <InputText id="firstName" class="form-control" @bind-Value="newPatient.FirstName" />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="lastName">Last Name</label>
+            <InputText id="lastName" class="form-control" @bind-Value="newPatient.LastName" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <div class="col-md-4">
+            <input type="radio" name="gender" value="M" @onchange="RadioSelection" checked />
+            <label class="radio-inline">Male</label>
+
+            <input type="radio" name="gender" value="F" @onchange="RadioSelection" />
+            <label class="radio-inline">Female</label>
+
+            <input type="radio" name="gender" value="U" @onchange="RadioSelection" />
+            <label class="radio-inline">Unknown</label>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="phone">Phone</label>
+            <InputText id="phone" class="form-control" @bind-Value="newPatient.Phone" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="dob">DOB</label>
+            <InputDate id="dob" class="form-control" @bind-Value="newPatient.DOB" />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="address">Address</label>
+            <InputTextArea id="address" class="form-control" rows="3" @bind-Value="newPatient.Address" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="city">City</label>
+            <InputText id="city" class="form-control" @bind-Value="newPatient.City" />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="notes">Notes</label>
+            <InputTextArea id="notes" class="form-control" rows="3" @bind-Value="newPatient.Notes" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary"> Submit </button>
+</EditForm>
+
+@code {
+
+    string GenderValue = "M";
+
+    void RadioSelection(ChangeEventArgs args)
+    {
+        GenderValue = args.Value.ToString();
+    }
+
+    DisplayPatientModel newPatient = new DisplayPatientModel() { Gender = "M"};
+
+    private async Task InsertPatient()
+    {
+        PatientModel p = new PatientModel
+        {
+            OPDNumber = newPatient.OPDNumber,
+            FirstName = newPatient.FirstName,
+            LastName = newPatient.LastName,
+            Gender = GenderValue,
+            Phone = newPatient.Phone,
+            DOB = newPatient.DOB,
+            Address = newPatient.Address,
+            City = newPatient.City,
+            Notes = newPatient.Notes
+        };
+        await _db.AddPatient(p);
+
+        toastService.ShowToast(ToastLevel.Success, $"Successfully Added : {newPatient.FirstName}");
+
+        newPatient = new DisplayPatientModel();
+    }
+}
