@@ -13,6 +13,7 @@ using clinic_manager_app.Data;
 using DataLibrary;
 using Blazored.Toast;
 using Blazored.Modal;
+using BlazorTable;
 
 namespace clinic_manager_app
 {
@@ -38,6 +39,7 @@ namespace clinic_manager_app
 
             services.AddBlazoredToast();
             services.AddBlazoredModal();
+            services.AddBlazorTable();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

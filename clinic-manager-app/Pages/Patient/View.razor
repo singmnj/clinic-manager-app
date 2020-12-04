@@ -1,9 +1,11 @@
 ﻿@page "/patient/{PatientId}"
 
-@using System.Linq;
+@using System.Linq
 
 @using DataLibrary
 @using DataLibrary.Models
+
+@using BlazorTable
 
 @inject IPatientDAL _pdb
 @inject IConsultationDAL _cdb
@@ -31,7 +33,7 @@ else
             <div style="padding-left:200px" class="block">
                 <strong>Address : </strong><em>@patientModel.Address</em> <br />
                 <strong>City : </strong><em>@patientModel.City</em> <br />
-                <strong>Notes : </strong>
+                <strong>Disease : </strong>
                 <div style="overflow: auto;max-height:100px; max-width:500px">@patientModel.Notes</div>
             </div>
         </div>
@@ -54,33 +56,28 @@ else
     }
     else
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Notes</th>
-                    <th>Medicines</th>
-                    <th>Days</th>
-                    <th>MaramTherapy</th>
-                    <th>AmountCharged</th>
-                    <th>AmountReceived</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var consultation in consultations)
-                {
-                <tr>
-                    <td>@consultation.Date</td>
-                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@consultation.Notes</div></td>
-                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@consultation.Medicines</div></td>
-                    <td>@consultation.Days</td>
-                    <td>@(consultation.MaramTherapyDone ? "Y" : "N") </td>
-                    <td>@consultation.AmountCharged</td>
-                    <td>@consultation.AmountReceived</td>
-                </tr>
-                }
-            </tbody>
-        </table>
+        <Table TableItem="ConsultationModel" Items="consultations" PageSize="8" ColumnReorder="true">
+            <Column TableItem="ConsultationModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" >
+                <Template>
+                    @(context.Date.ToShortDateString())
+                </Template>
+            </Column>
+            <Column TableItem="ConsultationModel" Title="Notes" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="10%" />
+            <Column TableItem="ConsultationModel" Title="Medicines" Field="@(x => x.Medicines)" Sortable="true" Filterable="true" Width="17.5%" />
+            <Column TableItem="ConsultationModel" Title="Days" Field="@(x => x.Days)" Sortable="true" Filterable="true" Width="7.5%" />
+            <Column TableItem="ConsultationModel" Title="MaramTherapy" Field="@(x => x.MaramTherapyDone)" Sortable="true" Filterable="true" Width="7.5%" >
+                <Template>
+                    @(context.MaramTherapyDone ? "Y" : "N")
+                </Template>
+            </Column>
+            <Column TableItem="ConsultationModel" Title="Charged" Field="@(x => x.AmountCharged)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
+            <Column TableItem="ConsultationModel" Title="Received" Field="@(x => x.AmountReceived)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
+            <Column TableItem="ConsultationModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
+                <Template>
+                    <button type="submit" class="oi oi-trash btn btn-primary" />
+                </Template>
+            </Column>
+        </Table>
     }
 }
 

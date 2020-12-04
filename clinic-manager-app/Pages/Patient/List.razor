@@ -3,6 +3,8 @@
 @using DataLibrary
 @using DataLibrary.Models
 
+@using BlazorTable
+
 @inject IPatientDAL _db
 
 @inject IModalService Modal
@@ -10,20 +12,7 @@
 @inject NavigationManager NavManager
 
 <h3>Patients</h3>
-
-<div class="row">
-    <div class="block">
-        <input class="form-control" placeholder="Type and Hit Enter" @bind-value="SearchString" />
-    </div>
-    <div class="block">
-        <select class="form-control selectpicker" @bind="SearchCriteria">
-            @foreach (var criteria in SearchCriterias)
-            {
-                <option value="@criteria">@criteria</option>
-            }
-        </select>
-    </div>
-</div>
+<br />
 
 @if (patients == null)
 {
@@ -31,65 +20,38 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>OPD No.</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Gender</th>
-                <th>Phone</th>
-                <th>Age</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{ 
-                List<PatientModel> filteredPatients = patients;
-
-                if (string.IsNullOrEmpty(SearchString))
-                    filteredPatients = patients;
-                else if (SearchCriteria.Equals("OPDNo"))
-                    filteredPatients = patients.Where(p => p.OPDNumber.ToLower().Contains(SearchString.ToLower())).ToList<PatientModel>();
-                else if(SearchCriteria.Equals("FirstName"))
-                    filteredPatients = patients.Where(p => p.FirstName.ToLower().Contains(SearchString.ToLower())).ToList<PatientModel>();
-            }
-            @foreach (var patient in filteredPatients)
-            {
-                <tr>
-                    <td>@patient.OPDNumber</td>
-                    <td>@patient.FirstName</td>
-                    <td>@patient.LastName</td>
-                    <td>@patient.Gender</td>
-                    <td>@patient.Phone</td>
-                    <td>@(DateTime.Today.Year - patient.DOB.Year)</td>    
-                    <td>@patient.Address</td>
-                    <td>@patient.City</td>
-                    <td><div style="max-width: 150px; max-height: 100px;overflow:auto">@patient.Notes</div></td>
-                    <td><button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(patient.Id))" /></td>
-                    <td><button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(patient.Id))" /></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<Table TableItem="PatientModel" Items="patients" PageSize="8" ColumnReorder="true">
+    <Column TableItem="PatientModel" Title="OPD" Field="@(x => x.OPDNumber)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
+    <Column TableItem="PatientModel" Title="FirstName" Field="@(x => x.FirstName)" Sortable="true" Filterable="true" Width="11%" DefaultSortColumn="true" />
+    <Column TableItem="PatientModel" Title="LastName" Field="@(x => x.LastName)" Sortable="true" Filterable="true" Width="11%" DefaultSortColumn="true" />
+    <Column TableItem="PatientModel" Title="Gender" Field="@(x => x.Gender)" Sortable="true" Filterable="true" Width="7.5%" />
+    <Column TableItem="PatientModel" Title="Phone" Field="@(x => x.Phone)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="PatientModel" Title="Age" Field="@(x => x.DOB)" Sortable="true" Filterable="true" Width="5%">
+        <Template>
+            @(DateTime.Today.Year - context.DOB.Year)
+        </Template>
+    </Column>
+    <Column TableItem="PatientModel" Title="Address" Field="@(x => x.Address)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="PatientModel" Title="City" Field="@(x => x.City)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="PatientModel" Title="Disease" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="13%" />
+    <Column TableItem="PatientModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
+        <Template>
+            <button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(context.Id))" />
+            <button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(context.Id))" />
+        </Template>
+    </Column>
+    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true" PageSizes="pageSizes"/>
+</Table>
 }
 
 @code {
 
-    private string SearchString { get; set; }
-
-    private string SearchCriteria { get; set; }
-
-    private string[] SearchCriterias = { "OPDNo", "FirstName"};
+    List<int> pageSizes = new List<int> { 5, 10, 50, 100 };
 
     List<PatientModel> patients;
 
     protected override async Task OnInitializedAsync()
     {
-        SearchString = "";
-        SearchCriteria = SearchCriterias[0];
         patients = await _db.GetPatients();
     }
 
