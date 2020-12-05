@@ -14,6 +14,9 @@ using DataLibrary;
 using Blazored.Toast;
 using Blazored.Modal;
 using BlazorTable;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 namespace clinic_manager_app
 {
@@ -40,6 +43,13 @@ namespace clinic_manager_app
             services.AddBlazoredToast();
             services.AddBlazoredModal();
             services.AddBlazorTable();
+
+            services.AddBlazorise(options =>
+             {
+                 options.ChangeTextOnKeyPress = true; // optional
+             })
+            .AddBootstrapProviders()
+            .AddFontAwesomeIcons();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +67,10 @@ namespace clinic_manager_app
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.ApplicationServices
+            .UseBootstrapProviders()
+            .UseFontAwesomeIcons();
 
             app.UseEndpoints(endpoints =>
             {

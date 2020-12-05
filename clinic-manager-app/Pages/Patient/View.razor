@@ -6,6 +6,7 @@
 @using DataLibrary.Models
 
 @using BlazorTable
+@using Blazorise
 
 @inject IPatientDAL _pdb
 @inject IConsultationDAL _cdb
@@ -56,29 +57,30 @@ else
     }
     else
     {
-        <Table TableItem="ConsultationModel" Items="consultations" PageSize="8" ColumnReorder="true">
-            <Column TableItem="ConsultationModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" DefaultSortDescending="true">
+        <BlazorTable.Table TableItem="ConsultationModel" Items="consultations" PageSize="10" ColumnReorder="true">
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" DefaultSortDescending="true">
                 <Template>
                     @(context.Date.ToShortDateString())
                 </Template>
-            </Column>
-            <Column TableItem="ConsultationModel" Title="Notes" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="10%" />
-            <Column TableItem="ConsultationModel" Title="Medicines" Field="@(x => x.Medicines)" Sortable="true" Filterable="true" Width="17.5%" />
-            <Column TableItem="ConsultationModel" Title="Days" Field="@(x => x.Days)" Sortable="true" Filterable="true" Width="7.5%" />
-            <Column TableItem="ConsultationModel" Title="MaramTherapy" Field="@(x => x.MaramTherapyDone)" Sortable="true" Filterable="true" Width="7.5%" >
+            </BlazorTable.Column>
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Notes" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="10%" />
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Medicines" Field="@(x => x.Medicines)" Sortable="true" Filterable="true" Width="17.5%" />
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Days" Field="@(x => x.Days)" Sortable="true" Filterable="true" Width="7.5%" />
+            <BlazorTable.Column TableItem="ConsultationModel" Title="MaramTherapy" Field="@(x => x.MaramTherapyDone)" Sortable="true" Filterable="true" Width="7.5%">
                 <Template>
                     @(context.MaramTherapyDone ? "Y" : "N")
                 </Template>
-            </Column>
-            <Column TableItem="ConsultationModel" Title="Charged" Field="@(x => x.AmountCharged)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
-            <Column TableItem="ConsultationModel" Title="Received" Field="@(x => x.AmountReceived)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
-            <Column TableItem="ConsultationModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
+            </BlazorTable.Column>
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Charged" Field="@(x => x.AmountCharged)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Received" Field="@(x => x.AmountReceived)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
+            <BlazorTable.Column TableItem="ConsultationModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
                 <Template>
                     <button type="submit" class="oi oi-pencil btn btn-primary" @onclick="@(e => CallEditConsultationModal(context))" />
                     <button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeleteConsultation(context.Id))" />
                 </Template>
-            </Column>
-        </Table>
+            </BlazorTable.Column>
+            <BlazorTable.Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true"/>
+        </BlazorTable.Table>
     }
 }
 
