@@ -56,7 +56,7 @@ else
     }
     else
     {
-        <Table TableItem="ConsultationModel" Items="consultations" PageSize="8" ColumnReorder="true">
+        <Table TableItem="ConsultationModel" Items="consultations" PageSize="10" ColumnReorder="true">
             <Column TableItem="ConsultationModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" DefaultSortDescending="true">
                 <Template>
                     @(context.Date.ToShortDateString())
@@ -78,6 +78,7 @@ else
                     <button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeleteConsultation(context.Id))" />
                 </Template>
             </Column>
+            <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true" />
         </Table>
     }
 }

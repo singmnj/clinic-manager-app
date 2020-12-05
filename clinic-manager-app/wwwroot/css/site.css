@@ -23,6 +23,7 @@ app {
 .top-row {
     height: 3.5rem;
     display: flex;
+    z-index: 1;
     align-items: center;
 }
 
