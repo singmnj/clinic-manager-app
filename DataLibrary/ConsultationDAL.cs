@@ -29,5 +29,26 @@ namespace DataLibrary
 
             return _db.SaveData(sql, consultation);
         }
+
+        public Task DeleteConsultation(int consultationId)
+        {
+            string sql = $"DELETE FROM consultation WHERE Id = {consultationId}";
+            return _db.SaveData(sql, new { });
+        }
+
+        public Task EditConsultation(ConsultationModel consultation)
+        {
+            string sql = $@"UPDATE consultation
+                           SET
+                           Date = @Date,
+                           Notes = @Notes,
+                           Medicines = @Medicines,
+                           Days = @Days,
+                           MaramTherapyDone = {(consultation.MaramTherapyDone ? 1 : 0)},
+                           AmountCharged = @AmountCharged,
+                           AmountReceived = @AmountReceived
+                           WHERE Id = @Id;";
+            return _db.SaveData(sql, consultation);
+        }
     }
 }

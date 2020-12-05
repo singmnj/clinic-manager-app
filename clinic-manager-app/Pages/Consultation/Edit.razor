@@ -1,0 +1,87 @@
+﻿@page "/consultation/edit/"
+
+@using DataLibrary
+@using DataLibrary.Models
+
+@inject IConsultationDAL _cdb
+@inject IToastService toastService
+@inject IModalService Modal
+
+<EditForm Model=@editConsultation OnValidSubmit="@EditConsultation">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="add-consultation-modal">
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="date">Date</label>
+                <InputDate id="date" class="form-control" @bind-Value="editConsultation.Date" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="notes">Notes</label>
+                <InputTextArea id="notes" class="form-control" @bind-Value="editConsultation.Notes" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="medicines">Medicines</label>
+                <InputTextArea id="medicines" class="form-control" @bind-Value="editConsultation.Medicines" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="days">Days</label>
+                <InputNumber id="days" class="form-control" @bind-Value="editConsultation.Days" />
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="maramTherapyDone">MaramTherapyDone</label>
+                <InputCheckbox id="maramTherapyDone" class="form-control" @bind-Value="editConsultation.MaramTherapyDone" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="amountCharged">Amount Charged</label>
+                <InputNumber id="amountCharged" class="form-control" @bind-Value="editConsultation.AmountCharged" />
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="amountReceived">Amount Received</label>
+                <InputNumber id="amountReceived" class="form-control" @bind-Value="editConsultation.AmountReceived" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary"> Submit </button>
+    </div>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public ConsultationModel editConsultation { get; set; }
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    private async Task EditConsultation()
+    {
+        ConsultationModel c = new ConsultationModel
+        {
+            Id = editConsultation.Id,
+            Date = editConsultation.Date,
+            Notes = editConsultation.Notes,
+            Medicines = editConsultation.Medicines,
+            Days = editConsultation.Days,
+            MaramTherapyDone = editConsultation.MaramTherapyDone,
+            AmountCharged = editConsultation.AmountCharged,
+            AmountReceived = editConsultation.AmountReceived
+        };
+        await _cdb.EditConsultation(c);
+
+        await BlazoredModal.Close(ModalResult.Ok(true));
+        toastService.ShowToast(ToastLevel.Success, $"Successfully Edited : {editConsultation.Id}");
+    }
+
+}

@@ -7,7 +7,7 @@
 @inject IToastService toastService
 @inject IModalService Modal
 
-<EditForm Model=@editPatient OnValidSubmit="@InsertPatient">
+<EditForm Model=@editPatient OnValidSubmit="@EditPatient">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -92,7 +92,7 @@
         await Task.Delay(1);
     }
 
-    private async Task InsertPatient()
+    private async Task EditPatient()
     {
         PatientModel p = new PatientModel
         {

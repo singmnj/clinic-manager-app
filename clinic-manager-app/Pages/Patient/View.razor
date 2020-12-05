@@ -57,7 +57,7 @@ else
     else
     {
         <Table TableItem="ConsultationModel" Items="consultations" PageSize="8" ColumnReorder="true">
-            <Column TableItem="ConsultationModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" >
+            <Column TableItem="ConsultationModel" Title="Date" Field="@(x => x.Date)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" DefaultSortDescending="true">
                 <Template>
                     @(context.Date.ToShortDateString())
                 </Template>
@@ -74,7 +74,8 @@ else
             <Column TableItem="ConsultationModel" Title="Received" Field="@(x => x.AmountReceived)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
             <Column TableItem="ConsultationModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
                 <Template>
-                    <button type="submit" class="oi oi-trash btn btn-primary" />
+                    <button type="submit" class="oi oi-pencil btn btn-primary" @onclick="@(e => CallEditConsultationModal(context))" />
+                    <button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeleteConsultation(context.Id))" />
                 </Template>
             </Column>
         </Table>
@@ -122,6 +123,21 @@ else
 
     }
 
+    private async Task DeleteConsultation(int consultationId)
+    {
+        var options = new ModalOptions() { DisableBackgroundCancel = true, HideCloseButton = true };
+        var modal = Modal.Show<Confirm>("Deleting Consultation", options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await _cdb.DeleteConsultation(consultationId);
+
+            await OnInitializedAsync();
+        }
+    }
+
     private async Task CallAddConsultationModal()
     {
         var parameters = new ModalParameters();
@@ -129,6 +145,22 @@ else
 
         var options = new ModalOptions() { };
         var modal = Modal.Show<Consultation.Add>("Adding Consultation", parameters, options);
+
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await OnInitializedAsync();
+        }
+    }
+
+    private async Task CallEditConsultationModal(ConsultationModel consultation)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Consultation.Edit.editConsultation), consultation);
+
+        var options = new ModalOptions() { };
+        var modal = Modal.Show<Consultation.Edit>("Editing Consultation", parameters, options);
 
         var result = await modal.Result;
 
