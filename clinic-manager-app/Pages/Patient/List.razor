@@ -20,10 +20,11 @@
 }
 else
 {
-<Table TableItem="PatientModel" Items="patients" PageSize="8" ColumnReorder="true">
-    <Column TableItem="PatientModel" Title="OPD" Field="@(x => x.OPDNumber)" Sortable="true" Filterable="true" Width="7.5%" DefaultSortColumn="true" />
-    <Column TableItem="PatientModel" Title="FirstName" Field="@(x => x.FirstName)" Sortable="true" Filterable="true" Width="11%" DefaultSortColumn="true" />
-    <Column TableItem="PatientModel" Title="LastName" Field="@(x => x.LastName)" Sortable="true" Filterable="true" Width="11%" DefaultSortColumn="true" />
+<Table TableItem="PatientModel" Items="patients" PageSize="50" ColumnReorder="true">
+    <Column TableItem="PatientModel" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="6%" DefaultSortColumn="true" />
+    <Column TableItem="PatientModel" Title="OPD" Field="@(x => x.OPDNumber)" Sortable="true" Filterable="true" Width="7.5%" />
+    <Column TableItem="PatientModel" Title="FirstName" Field="@(x => x.FirstName)" Sortable="true" Filterable="true" Width="11%" />
+    <Column TableItem="PatientModel" Title="LastName" Field="@(x => x.LastName)" Sortable="true" Filterable="true" Width="11%" />
     <Column TableItem="PatientModel" Title="Gender" Field="@(x => x.Gender)" Sortable="true" Filterable="true" Width="7.5%" />
     <Column TableItem="PatientModel" Title="Phone" Field="@(x => x.Phone)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="PatientModel" Title="Age" Field="@(x => x.DOB)" Sortable="true" Filterable="true" Width="5%">
@@ -40,13 +41,13 @@ else
             <button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(context.Id))" />
         </Template>
     </Column>
-    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true" PageSizes="pageSizes"/>
+    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true" PageSizes="pageSizes" />
 </Table>
 }
 
 @code {
 
-    List<int> pageSizes = new List<int> { 5, 10, 50, 100 };
+    List<int> pageSizes = new List<int> { 10, 25, 50, 100, 200, 500 };
 
     List<PatientModel> patients;
 
