@@ -22,9 +22,9 @@ else
 {
 <Table TableItem="PatientModel" Items="patients" PageSize="50" ColumnReorder="true">
     <Column TableItem="PatientModel" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="6%" DefaultSortColumn="true" />
-    <Column TableItem="PatientModel" Title="OPD" Field="@(x => x.OPDNumber)" Sortable="true" Filterable="true" Width="7.5%" />
-    <Column TableItem="PatientModel" Title="FirstName" Field="@(x => x.FirstName)" Sortable="true" Filterable="true" Width="11%" />
-    <Column TableItem="PatientModel" Title="LastName" Field="@(x => x.LastName)" Sortable="true" Filterable="true" Width="11%" />
+    <Column TableItem="PatientModel" Title="OPD" Field="@(x => x.OPDNumber)" Sortable="true" Filterable="true" Width="7%" />
+    <Column TableItem="PatientModel" Title="FirstName" Field="@(x => x.FirstName)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="PatientModel" Title="LastName" Field="@(x => x.LastName)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="PatientModel" Title="Gender" Field="@(x => x.Gender)" Sortable="true" Filterable="true" Width="7.5%" />
     <Column TableItem="PatientModel" Title="Phone" Field="@(x => x.Phone)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="PatientModel" Title="Age" Field="@(x => x.DOB)" Sortable="true" Filterable="true" Width="5%">
@@ -34,7 +34,8 @@ else
     </Column>
     <Column TableItem="PatientModel" Title="Address" Field="@(x => x.Address)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="PatientModel" Title="City" Field="@(x => x.City)" Sortable="true" Filterable="true" Width="10%" />
-    <Column TableItem="PatientModel" Title="Disease" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="13%" />
+    <Column TableItem="PatientModel" Title="Disease" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="PatientModel" Title="Due" Field="@(x => x.Due)" Sortable="true" Filterable="true" Width="5%" />
     <Column TableItem="PatientModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
         <Template>
             <button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(context.Id))" />

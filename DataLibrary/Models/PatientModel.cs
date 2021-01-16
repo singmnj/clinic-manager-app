@@ -24,6 +24,8 @@ namespace DataLibrary.Models
 
         public string City { get; set; }
 
-        public string Notes { get; set; }   
+        public string Notes { get; set; }  
+        
+        public int Due { get; set; }
     }
 }
