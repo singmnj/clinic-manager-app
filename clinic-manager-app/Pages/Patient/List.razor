@@ -34,13 +34,14 @@ else
     <Column TableItem="PatientModel" Title="Address" Field="@(x => x.Address)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="PatientModel" Title="City" Field="@(x => x.City)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="PatientModel" Title="Disease" Field="@(x => x.Notes)" Sortable="true" Filterable="true" Width="13%" />
+    <Column TableItem="PatientModel" Title="Due" Field="@(x => x.Due)" Sortable="true" Filterable="true" Width="5%" />
     <Column TableItem="PatientModel" Title="Actions" Field="@(x => x.Id)" Width="10%">
         <Template>
             <button type="submit" class="oi oi-eye btn btn-primary" @onclick="@(e => NavigateToPatientView(context.Id))" />
             <button type="submit" class="oi oi-trash btn btn-primary" @onclick="@(e => DeletePatient(context.Id))" />
         </Template>
     </Column>
-    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true" PageSizes="pageSizes"/>
+    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" AlwaysShow="true" PageSizes="pageSizes" />
 </Table>
 }
 

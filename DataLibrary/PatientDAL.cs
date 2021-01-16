@@ -17,14 +17,20 @@ namespace DataLibrary
 
         public Task<List<PatientModel>> GetPatients()
         {
-            string sql = "SELECT * FROM patient";
+            string sql = @"SELECT p.*,sum(c.AmountCharged) - sum(c.AmountReceived) AS Due FROM patient p
+                           LEFT JOIN consultation c ON
+                           p.Id = c.PatientId
+                           GROUP BY p.Id";
 
             return _db.LoadData<PatientModel, dynamic>(sql, new { });
         }
 
         public Task<List<PatientModel>> GetPatient(int patientId)
         {
-            string sql = $"SELECT * FROM patient WHERE Id = @Id";
+            string sql = $@"SELECT p.*,sum(c.AmountCharged) - sum(c.AmountReceived) AS Due FROM patient p
+                           LEFT JOIN consultation c ON
+                           p.Id = c.PatientId
+                           GROUP BY p.Id HAVING p.Id = @Id";
 
             return _db.LoadData<PatientModel, dynamic>(sql, new { Id = patientId });
         }

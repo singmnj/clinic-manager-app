@@ -43,7 +43,7 @@ else
     <div style="margin-top:2%; margin-bottom:2%;">
         <h4>Activities</h4>
         <span>
-            <button class="btn btn-info"> Dues : @dues </button>
+            <button class="btn btn-info"> Dues : @patientModel.Due </button>
             <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallAddConsultationModal()))"> Add Consultation </button>
             <button type="submit" class="btn btn-outline-primary" @onclick="@(e => (CallEditPatientModal()))"> Edit Patient </button>
         </span>
@@ -93,8 +93,6 @@ else
 
     List<ConsultationModel> consultations;
 
-    int dues = 0;
-
     protected override async Task OnInitializedAsync()
     {
         int id = 1;
@@ -105,8 +103,6 @@ else
             patientModel = patientModelList.FirstOrDefault();
 
             consultations = await _cdb.GetConsultations(id);
-
-            dues = consultations.Sum(c => c.AmountCharged) - consultations.Sum(c => c.AmountReceived);
         }
         else
         {
