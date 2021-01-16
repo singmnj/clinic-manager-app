@@ -11,3 +11,8 @@ App to manage all clinic related transactions
 - implemented new table look and pagination 
 - can now edit and delete a consultation
 - fixed a css bug
+
+**Version 1.2**
+- added Dashboard
+- added blazorise library support
+- dues now calculated DB side
