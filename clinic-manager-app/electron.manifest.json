@@ -11,7 +11,7 @@
     "appId": "com.clinic-manager-app.app",
     "productName": "clinic-manager-app",
     "copyright": "Copyright © 2020",
-    "buildVersion": "1.2.1",
+    "buildVersion": "1.3.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"

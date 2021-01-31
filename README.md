@@ -16,3 +16,9 @@ App to manage all clinic related transactions
 - added Dashboard
 - added blazorise library support
 - dues now calculated DB side
+
+**version 1.3**
+- added bar graph to dashboard
+- form alignment fixes
+- added missing toast notification
+- css changes

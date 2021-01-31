@@ -4,41 +4,63 @@
 @using DataLibrary.Models
 
 @inject IPatientDAL _db
+@inject IConsultationDAL _cdb
 
-<h2 style="font-weight:bold">Dashboard</h2>
-<br/>
+<h3 style="font-weight:bold">Dashboard</h3>
 
 <div class="card-deck">
     <div class="card">
         <div class="card-body d-flex flex-column">
-            <h1 class="card-title" style="color:darkblue;font-size:150px;text-align:center">@stats.patientCount</h1>
+            <h1 class="card-title" style="color:darkblue;font-size:150px;text-align:center;margin-top:auto">@stats.patientCount</h1>
             <p class="card-text mt-auto" style="font-weight: bold;text-align:center">Total Unique Patients</p>
         </div>
     </div>
     <div class="card">
         <div class="card-body d-flex flex-column">
-            <h1 class="card-title" style="color:rebeccapurple;font-size:150px;text-align:center">@stats.patientWithDuesCount</h1>
+            <h1 class="card-title" style="color:rebeccapurple;font-size:150px;text-align:center;margin-top:auto">@stats.patientWithDuesCount</h1>
             <p class="card-text mt-auto" style="font-weight: bold;text-align:center">Patients with Dues</p>
         </div>
     </div>
     <div class="card">
         <div class="card-body d-flex flex-column">
-            <div class="card-title" style="color:orangered;text-align:center">
-                @foreach (string s in stats.topPatientsWithDues)
-                {
-                    <p><b>@s</b></p>
-                }
+            <div class="card-title">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">OPD #</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Due</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (string s in stats.topPatientsWithDues)
+                        {
+                            <tr>
+                                <td>@s.Split(",")[0]</td>
+                                <td>@s.Split(",")[1]</td>
+                                <td style="color:orangered;">@s.Split(",")[2]</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
             <p class="card-text mt-auto" style="font-weight: bold;text-align:center">Top 5 patients with Dues</p>
         </div>
     </div>
     <div class="card">
         <div class="card-body d-flex flex-column">
-            <h1 class="card-title" style="color:red;font-size:5vw;text-align:center">@("₹ " + stats.totalDueAmount)</h1>
+            <h1 class="card-title" style="color:red;font-size:5vw;text-align:center;margin-top:auto">@("₹ " + stats.totalDueAmount)</h1>
             <p class="card-text mt-auto" style="font-weight: bold;text-align:center">Total Dues</p>
         </div>
     </div>
 </div>
+<Blazorise.Column ColumnSize="Blazorise.ColumnSize.IsHalf.OnWidescreen">
+    <Blazorise.Card Margin="Blazorise.Margin.Is3.OnY">
+        <Blazorise.CardBody>
+            <BarChart @ref="barChart" TItem="int" />
+        </Blazorise.CardBody>
+    </Blazorise.Card>
+</Blazorise.Column>
 
 @code {
 
@@ -64,4 +86,55 @@
         stats.topPatientsWithDues = patients.Where(r => r.Due > 0).OrderByDescending(r => r.Due).Take(5).Select(r => (string.Join(", ", r.OPDNumber, r.FirstName + " " + r.LastName, "₹ " + r.Due))).ToArray();
         stats.totalDueAmount = patients.Where(r => r.Due > 0).Sum(r => r.Due);
     }
+
+    BarChart<int> barChart;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate(Labels, GetBarChartDataset());
+    }
+
+    BarChartDataset<int> GetBarChartDataset()
+    {
+        return new BarChartDataset<int>
+        {
+            Label = "# of Patients",
+            Data = GetLast7DayCounts().Result,
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+            BorderWidth = 1
+        };
+    }
+
+    string[] Labels = { DateTime.Now.AddDays(-6).Day.ToString(),
+                        DateTime.Now.AddDays(-5).Day.ToString(),
+                        DateTime.Now.AddDays(-4).Day.ToString(),
+                        DateTime.Now.AddDays(-3).Day.ToString(),
+                        DateTime.Now.AddDays(-2).Day.ToString(),
+                        DateTime.Now.AddDays(-1).Day.ToString(),
+                        DateTime.Now.Day.ToString() };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba(0, 255, 0, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f), ChartColor.FromRgba(255, 0, 127, 0.2f) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba(0, 255, 0, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f), ChartColor.FromRgba(255, 0, 127, 1f) };
+
+    protected async Task<List<int>> GetLast7DayCounts()
+    {
+        var last7DaysConsultationCount = new List<int> { };
+        for(int days = 6; days >= 0; days--)
+        {
+            List<int> count  = await _cdb.GetConsultationsOnDaysBack(days);
+            last7DaysConsultationCount.Add(count.First<int>());
+        }
+        return last7DaysConsultationCount;
+    }
+
 }

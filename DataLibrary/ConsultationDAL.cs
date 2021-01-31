@@ -50,5 +50,11 @@ namespace DataLibrary
                            WHERE Id = @Id;";
             return _db.SaveData(sql, consultation);
         }
+
+        public Task<List<int>> GetConsultationsOnDaysBack(int days)
+        {
+            string sql = $"select count(*) from consultation where date(Date) = DATE('now', '-{days} day') ";
+            return _db.LoadData<int, dynamic>(sql, new { });
+        }
     }
 }

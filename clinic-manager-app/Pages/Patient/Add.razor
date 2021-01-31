@@ -15,62 +15,63 @@
     <ValidationSummary />
 
     <div class="form-row">
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-4">
             <label for="opdNumber">OPD Number</label>
             <InputText id="opdNumber" class="form-control" @bind-Value="newPatient.OPDNumber" />
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
             <label for="firstName">First Name</label>
             <InputText id="firstName" class="form-control" @bind-Value="newPatient.FirstName" />
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
             <label for="lastName">Last Name</label>
             <InputText id="lastName" class="form-control" @bind-Value="newPatient.LastName" />
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="gender">Gender</label>
-        <div class="col-md-4">
-            <input type="radio" name="gender" value="M" @onchange="RadioSelection" checked />
-            <label class="radio-inline">Male</label>
-
-            <input type="radio" name="gender" value="F" @onchange="RadioSelection" />
-            <label class="radio-inline">Female</label>
-
-            <input type="radio" name="gender" value="U" @onchange="RadioSelection" />
-            <label class="radio-inline">Unknown</label>
-        </div>
-    </div>
-
     <div class="form-row">
-        <div class="form-group col-md-2">
+
+        <div class="form-group col-md-4">
+            <label for="gender">Gender</label>
+            <div>
+                <input type="radio" name="gender" value="M" @onchange="RadioSelection" checked />
+                <label class="radio-inline">Male</label>
+
+                <input type="radio" name="gender" value="F" @onchange="RadioSelection" />
+                <label class="radio-inline">Female</label>
+
+                <input type="radio" name="gender" value="U" @onchange="RadioSelection" />
+                <label class="radio-inline">Unknown</label>
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
             <label for="phone">Phone</label>
             <InputText id="phone" class="form-control" @bind-Value="newPatient.Phone" />
         </div>
 
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-4">
             <label for="dob">DOB</label>
             <InputDate id="dob" class="form-control" @bind-Value="newPatient.DOB" />
         </div>
     </div>
 
     <div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-6">
             <label for="address">Address</label>
             <InputTextArea id="address" class="form-control" rows="3" @bind-Value="newPatient.Address" />
         </div>
 
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-6">
             <label for="city">City</label>
             <InputText id="city" class="form-control" @bind-Value="newPatient.City" />
         </div>
     </div>
 
     <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <label for="notes">Notes</label>
             <InputTextArea id="notes" class="form-control" rows="3" @bind-Value="newPatient.Notes" />
         </div>
