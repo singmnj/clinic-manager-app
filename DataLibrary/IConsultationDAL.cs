@@ -11,5 +11,6 @@ namespace DataLibrary
         Task DeleteConsultation(int consultationId);
         Task EditConsultation(ConsultationModel consultation);
         Task<List<ConsultationModel>> GetConsultations(int patientId);
+        Task<List<int>> GetEarningsForMonthsBack(int months);
     }
 }
