@@ -53,7 +53,15 @@ namespace DataLibrary
 
         public Task<List<int>> GetConsultationsOnDaysBack(int days)
         {
-            string sql = $"select count(*) from consultation where date(Date) = DATE('now', '-{days} day') ";
+            string sql = $"select count(*) from consultation where date(Date) = DATE('now', '-{days} day');";
+            return _db.LoadData<int, dynamic>(sql, new { });
+        }
+
+        public Task<List<int>> GetEarningsForMonthsBack(int months)
+        {
+            string sql = $"select IFNULL(sum(AmountCharged), 0) from consultation where date >= date('now','start of month');";
+            if (months > 0)
+                sql = $@"select IFNULL(sum(AmountCharged), 0) from consultation where date >= date('now','start of month','-{months} months') AND date < date('now','start of month','-{months - 1} months');";
             return _db.LoadData<int, dynamic>(sql, new { });
         }
     }
