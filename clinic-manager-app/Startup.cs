@@ -17,6 +17,7 @@ using BlazorTable;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using ElectronNET.API.Entities;
 
 namespace clinic_manager_app
 {
@@ -80,7 +81,27 @@ namespace clinic_manager_app
 
             dataAccess.Setup();
 
-            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync());
+            if (HybridSupport.IsElectronActive)
+            {
+                ElectronBootstrap();
+            }
+        }
+
+        public async void ElectronBootstrap()
+        {
+            var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+            {
+                Title = "Clinic Manager App",
+                Show = false
+            });
+
+            Electron.Menu.SetApplicationMenu(new MenuItem[] { });
+            await browserWindow.WebContents.Session.ClearCacheAsync();
+
+            browserWindow.OnReadyToShow += () => {
+                browserWindow.Show();
+                browserWindow.Maximize();
+            };
         }
     }
 }

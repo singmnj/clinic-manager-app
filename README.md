@@ -22,3 +22,7 @@ App to manage all clinic related transactions
 - form alignment fixes
 - added missing toast notification
 - css changes
+
+**version 1.4**
+- added splashscreen
+- app maximized on startup

@@ -1,7 +1,7 @@
 {
   "executable": "clinic-manager-app",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "/wwwroot/splashscreen.png"
   },
   "name": "clinic-manager-app",
   "author": "",
@@ -11,7 +11,7 @@
     "appId": "com.clinic-manager-app.app",
     "productName": "clinic-manager-app",
     "copyright": "Copyright © 2021",
-    "buildVersion": "1.3.2",
+    "buildVersion": "1.4.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
